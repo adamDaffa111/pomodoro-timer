@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="assets/css/style.css" type="text/css" media="all" />
+  <title>pomodoro timer</title>
+</head>
+<body>
+  <div class="container">
+    <div class="menu">
+      <button class="hamburger-btn"> <i class="fas fa-ellipsis-v"></i></button>
+      <div class="features hide">
+        <ul>
+          <li>
+            <button class="dropdown-btn">
+              <i class="fas fa-plus"></i>
+              <span>add task</span>
+            </button>
+            <div class="dropdown-content field-task hide">
+              <div class="input-group">
+                <label for="title">title : </label>
+                <input type="text" placeholder="title task" id="title" class="task-name">
+              </div>
+              <div class="input-group">
+                <label for="repeat-pomodoro"> repeat  : </label>
+                <select id="repeat-pomodoro" >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+              <button type="button" class="add-task-btn" id="add-task"> <i class="fas fa-plus"></i> </button>
+            </div>
+          </li>
+          <li>
+            <button class="dropdown-btn">
+              <i class="fas fa-check"></i>
+              <span>completed task</span>
+            </button>
+            <ul class="dropdown-content task-lists hide" id="completedTasks">
+            </ul>
+           </li>
+          <li>
+            <button class="dropdown-btn">
+              <i class="fas fa-tasks"></i>
+              <span>tasks</span>
+            </button>
+            <ul class="dropdown-content task-lists hide" id="tasks">
+            </ul>
+           </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="active-task hide">
+
+    </div>
+    
+    <div class="panel">
+      <div class="time">
+        <h1>25 : 00</h1>
+      </div>
+      <div class="buttons">
+        <button type="button" class="play"> <i class="fas fa-play"></i> start to focus </button>
+        <button type="button" class="pause hide"> <i class="fas fa-pause"></i> pause </button>
+        <button type="button" class="resume hide"> <i class="fas fa-play"></i> resume </button>
+        <button type="button" class="stop hide"> <i class="fas fa-times"></i> stop </button>
+        <button type="button" class="reload hide"> <i class="fas fa-sync"></i> reload </button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="assets/js/script.js" type="text/javascript" charset="utf-8"></script>
+  <script src="assets/js/todo-list.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

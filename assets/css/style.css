@@ -1,0 +1,269 @@
+/** Google font **/
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
+
+/** basic reset style **/
+* {
+  box-sizing: border-box;
+  font-family: 'Raleway',Sans-Serif;
+}
+body {
+  background: linear-gradient(#42275a,#734b6d) no-repeat;
+ height: 100vh;
+ padding: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/** container **/
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+/** styling menu **/
+.menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+.menu .hamburger-btn {
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  font-size: 1.8rem;
+  color: #fff;
+  margin-right: auto;
+}
+.menu .features {
+  width: 100%;
+  position: fixed;
+  height: 100%;
+}
+.menu .features.hide {
+  display: none;
+}
+.menu .features > ul{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 300px;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(5px);
+}
+
+.menu .features > ul > li {
+  width: 100%;
+}
+.menu .features > ul > li .field-task{
+  padding: .5rem 1.5rem;
+  height: 210px;
+}
+
+.dropdown-content input[type="text"] {
+  width: 100%;
+  padding: .5rem;
+}
+.menu .features > ul > li > button  span{
+  margin-left: .3rem;
+}
+
+
+.menu .features > ul > li > button {
+  width: 100%;
+  padding: .5rem 1rem;
+  text-align: left;
+  border: none;
+  font-size: 1rem;
+  background: none;
+  border-bottom: .7px solid rgba(0,0,0,.3) ;
+  border-top: .7px solid rgba(0,0,0,.3) ;
+}
+.features ul .dropdown-content{
+  transition: .5s;
+  overflow: hidden;
+}
+.features ul li .dropdown-content.hide{
+  height: 0;
+  padding: 0;
+}
+
+
+.features ul .dropdown-content li{
+  display: flex;
+}
+.dropdown-content .input-group label {
+  font-size: .9rem;
+}
+.input-group #repeat-pomodoro {
+  border: 2px solid #734b6d;
+  padding: .3rem;
+  background: none;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
+.dropdown-content .input-group{
+  margin: .5rem 0;
+}
+.dropdown-content > .add-task-btn {
+  margin: .8rem 0;
+}
+.dropdown-content > .add-task-btn {
+  background: linear-gradient(#42275a,#734b6d) no-repeat;
+  color: #f1f2f2;
+  font-size: 1.1rem;
+  border: none;
+  padding: .5rem 1rem;
+}
+
+.features ul .task-lists {
+    padding: .5rem 1.5rem;
+    height: 300px;
+    overflow: scroll;
+}
+
+.features ul .task-lists li {
+  display: flex;
+  align-items: center;
+  margin-bottom: .7rem;
+  border-bottom: .5px solid rgba(0,0,0,.5);
+  padding-bottom: .3rem;
+}
+.features ul .task-lists button{
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.features ul li .task-lists .task-completed {
+  opacity: .5;
+  transition: .5s;
+  text-decoration: line-through;
+}
+.features ul li .task-lists .hide {
+  transform: translateX(100%);
+  transition: .5s;
+  opacity: 0;
+}
+
+.features ul li .task-lists .remove {
+  transform: translateX(-100%);
+  transition: .5s;
+  opacity: 0;
+}
+
+
+
+.features ul .task-lists li .task-name{
+  flex: 1;
+  padding-left: .7rem;
+}
+.task-lists li .task-name p {
+  margin: 0 ;
+  font-size: .9rem;
+  margin-bottom: .2rem;
+}
+.task-lists li .task-name div{
+  font-size: .7rem;
+}
+.features ul .task-lists li button{
+  background: none;
+  border: none;
+}
+
+/** active task style */
+.active-task {
+  width: 90%;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translatex(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(5px);
+  padding: .5rem;
+  transition: .5s;
+}
+.active-task.hide {
+  transform: translateX(-200%);
+  transition: .5s;
+  opacity: 0;
+}
+.active-task > .task-name {
+  flex: 1;
+  padding-left: 1rem;
+}
+.active-task > .task-name p {
+  margin: .5rem 0;
+  font-weight: 600;
+}
+.active-task button{
+  background: none;
+  border: none;
+}
+
+.task-name span,.task-name i{
+  font-size: .8rem;
+}
+
+
+
+/** panel style **/
+.panel .time h1{
+  font-weight: 100;
+  color: #f1f2f2;
+  font-size: 10rem;
+  text-align: center;
+}
+.panel .buttons {
+  display: flex;
+  justify-content: center;
+}
+.panel .buttons button {
+  margin: 0 .5rem;
+  font-size: 1.1rem;
+  border: 2px solid #f1f2f2;
+  background: none;
+  padding: 1rem 1.5rem;
+  color: #f1f2f2;
+  transition: .5s;
+  text-transform: uppercase;
+}
+
+.panel .buttons button i {
+  margin-right: .5rem;
+}
+.panel .buttons button:hover{
+  background: rgba(255,255,255,.5);
+  backdrop-filter: blur(5px);  
+  color: #333;
+}
+
+.panel .buttons button.hide {
+  display: none;
+}
+.panel .buttons button.play,.panel .buttons button.resume,.panel .buttons button.reload{
+  background: #f1f2f2;
+  color: #333;
+}
+.panel .buttons button.play:hover,.panel .buttons button.reload:hover {
+  background: #333;
+  color: #f1f2f2;
+}
+@media screen and (max-width: 670px){
+  .panel .time h1{
+    font-size: 5rem;
+  }
+}
