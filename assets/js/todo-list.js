@@ -1,20 +1,33 @@
 const inputTask = document.querySelector('#title');
 const repeatSelect = document.querySelector('#repeat-pomodoro');
 const addBtn = document.querySelector('#add-task');
-
 const taskList = document.querySelector('#tasks');
 const completedTaskList = document.querySelector('#completedTasks');
-
 let tasks = [];
+let taskObj;
 
+// data local
+let localTask = getLocalTask();
 // listener for add todos
 addBtn.addEventListener('click',addTodo);
-
 // listener for some featured todo todos in task list
 taskList.addEventListener('click',featuredTodo);
-
 // listener for some featured todo todos in complete task list
 completedTaskList.addEventListener('click',featuredTodo);
+
+console.log(taskActive)
+// display UI data 
+document.addEventListener('DOMContentLoaded',() => {
+  addtask(taskList,localTask);
+  if (JSON.parse(localStorage.getItem('active-task')) != null) {
+    taskObj = JSON.parse(localStorage.getItem('active-task'));
+    // display active task
+    document.querySelector('.active-task').classList.remove('hide');
+    taskActive = true;
+    numbRepeat = taskObj.number;
+    displayActiveTask(taskObj);
+  }
+});
 
 // add todo function
 function addTodo() {
@@ -22,10 +35,16 @@ function addTodo() {
   let repeatNumber = repeatSelect.value;
   // basic validation when field is blank
   if(task != '') {
-    addtask(taskList,task,repeatNumber);
+    taskObj = {
+      task,
+      number: repeatNumber
+    };
+    
+    addLocalTask(taskObj,'tasks');
+    addtask(taskList,localTask);
+   
     inputTask.value = '';
     repeatSelect.value = 1;
-  
     swal({
       text: "tugas ditambahkan!",
       icon: "success",
@@ -44,10 +63,13 @@ function featuredTodo(e) {
     const dataTask = element.nextElementSibling.children[0].innerText;
     const dataNumber = element.nextElementSibling.children[0].nextElementSibling.children[1].innerText;
    
+    // clear active task
+    taskActive = false;
+
     if (element.parentElement.parentElement.id == 'completedTasks') {
-      addtask(taskList,dataTask,dataNumber);
+      addtask(taskList,localTask);
     }else {
-      addtask(completedTasks,dataTask,dataNumber);
+      addtask(completedTasks,[dataTask,dataNumber]);
     }
     
     document.querySelector('.active-task').classList.add('hide');
@@ -72,13 +94,21 @@ function featuredTodo(e) {
         swal("tugas telah dihapus!", {
           icon: "success",
         });
+      // title task
+      const title = element.parentElement.previousElementSibling.previousElementSibling.children[0].innerText;
+
+      // clear from local 
+      removeLocalTask(title,'tasks');
+      
       element.parentElement.parentElement.classList.add('remove');
       document.querySelector('.active-task').classList.add('hide');
-  
+      // clear active task
+      taskActive = false;
       setTimeout(function() {
         element.parentElement.parentElement.style.display = "none";
       }, 500);
       
+      clearDangerAnimation();
       resetHideBtn();
       }
     });
@@ -86,28 +116,40 @@ function featuredTodo(e) {
   else if(element.classList.contains('fa-play')){
     let taskName = element.parentElement.previousElementSibling.children[0].innerText;
     let taskRepeat = element.parentElement.previousElementSibling.children[1].children[1].innerText;
+      taskObj = {
+      task:taskName,
+      number:taskRepeat
+    };
+
+    displayActiveTask(taskObj);
+    numbRepeat = +taskRepeat;
+    taskActive = true;
+    // add into local localStorage
+    localStorage.setItem('active-task',JSON.stringify(taskObj));
     
+    setProgress(0);
+    clearDangerAnimation();
     resetHideBtn();
     
+    // hide the menu
     document.querySelector('.features').classList.add('hide');
     
+    // display active task
     document.querySelector('.active-task').classList.remove('hide');
-    
-    document.querySelector('.active-task').innerHTML = `
-      <input type="checkbox" id="check" class="check"/>
-      <div class="task-name">
-        <p>${taskName}</p>
-        <div>
-          <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${taskRepeat} </span>
-        </div>
-      </div>
-      <div>
-        <button class="delete-btn"> <i class="fas fa-trash"></i></button>
-      </div>
-    `;
+   
   }
 }
 
+function displayActiveTask({task,number}){
+  document.querySelector('.active-task').innerHTML = `
+    <div class="task-name">
+      <p>${task}</p>
+      <div>
+        <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${number} </span>
+      </div>
+    </div>
+  `;
+}
 
 function resetHideBtn(){
   resetCounter();
@@ -124,34 +166,39 @@ function resetHideBtn(){
   stopBtn.classList.add('hide');
 }
 
-function addtask(taskList,task,numb){
+function addtask(taskList,tasks){
   if (taskList.id == 'tasks') {
-   taskList.innerHTML += `
-      <li>
-        <input type="checkbox" id="check" class="check"/>
-        <div class="task-name">
-          <p> ${task} </p>
-          <div>
-            <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${numb} </span>
+    let str = '';
+    tasks.forEach(({task,number}) => {
+      str +=  `
+        <li>
+          <input type="checkbox" id="check" class="check"/>
+          <div class="task-name">
+            <p> ${task}  </p>
+            <div>
+              <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${number}</span>
+            </div>
           </div>
-        </div>
-        <button class="play-btn"> <i class="fas fa-play"></i></button>
-        <button class="delete-btn"> <i class="fas fa-trash"></i></button>
-      </li>
+          <button class="play-btn"> <i class="fas fa-play"></i></button>
+          <button class="delete-btn"> <i class="fas fa-trash"></i></button>
+        </li>
     `;
+   });
+  taskList.innerHTML = str;
   }else if(taskList.id == 'completedTasks'){
    taskList.innerHTML += `
       <li class="task-completed">
-        <input type="checkbox" id="check" class="check"/>
+        <input type="checkbox" id="check" checked class="check"/>
         <div class="task-name">
-          <p> ${task} </p>
+          <p> ${tasks[0]}</p>
           <div>
-            <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${numb} </span>
+            <i class="fas fa-stopwatch"></i> = <span class="number-of-task"> ${tasks[1]}</span>
           </div>
         </div>
         <button class="play-btn"> <i class="fas fa-play"></i></button>
         <button class="delete-btn"> <i class="fas fa-trash"></i></button>
       </li>
     `;
+    
   }
 }

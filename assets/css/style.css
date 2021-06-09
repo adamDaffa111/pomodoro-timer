@@ -9,6 +9,7 @@
 body {
   background: linear-gradient(#42275a,#734b6d) no-repeat;
  height: 100vh;
+ overflow: hidden;
  padding: 0;
 }
 ul {
@@ -26,6 +27,11 @@ ul {
   height: 100%;
 }
 
+audio {
+  left: -1000px;
+  opacity: 0;
+  position: absolute;
+}
 
 /** styling menu **/
 .menu {
@@ -221,13 +227,51 @@ ul {
 
 
 /** panel style **/
-.panel .time h1{
+.panel > div {
+  position: relative;
+}
+
+/* circular progress */
+.progress-ring {
+  height: 360px;
+  width: 360px;
+}
+.progress-ring.danger-time {
+  transform: scale(.8);
+  animation: danger .7s alternate infinite;
+}
+@keyframes danger {
+  to {
+      transform: scale(1);
+  }
+}
+.progress-ring__circle {
+  transition: 0.5s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke: #fff;
+}
+.progress-ring__circle.danger-time {
+  stroke: #df4759;
+}
+
+
+.panel div .time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.panel > div .time h1{
   font-weight: 100;
   color: #f1f2f2;
-  font-size: 10rem;
+  font-size: 3rem;
   text-align: center;
 }
 .panel .buttons {
+  transform: translatey(40px);
   display: flex;
   justify-content: center;
 }
@@ -262,8 +306,11 @@ ul {
   background: #333;
   color: #f1f2f2;
 }
+
+
+
 @media screen and (max-width: 670px){
-  .panel .time h1{
-    font-size: 5rem;
+  .panel > div .time h1{
+    font-size: 3rem;
   }
 }
