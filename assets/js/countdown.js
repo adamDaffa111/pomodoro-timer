@@ -1,3 +1,45 @@
+// cek apakah browser punya Storage
+if (typeof(Storage) !== undefined) {
+  console.log('local storage available');
+}else {
+  console.log('storage unavailable! your data gonna be lost when page reload');
+}
+
+
+function getLocalTask(key) {
+  let tasks = [];
+  if(localStorage.getItem(key) == null){
+    tasks = [];
+  }else {
+    tasks = JSON.parse(localStorage.getItem(key));
+  }
+  return tasks;
+}
+
+// add the item into local Storage
+function addLocalTask(obj,key){
+  let tasks = getLocalTask(key);
+  tasks.push(obj);
+  localStorage.setItem(key,JSON.stringify(tasks));
+}
+
+function removeLocalTask(title,key){
+  let tasks = getLocalTask(key);
+  tasks.forEach((item,index) => {
+    if(item.task == title) {
+      tasks.splice(index,1);
+    }
+  });
+  localStorage.setItem(key,JSON.stringify(tasks));
+}
+
+
+
+
+
+
+//// COUNTDOWN ////
+
 // bels
 const audio = document.querySelector('audio');
 
@@ -63,6 +105,9 @@ function validateAvailableTask(element){
       alert('you should create the task!');
     }else {
       numbRepeat--;
+      taskObj.number = numbRepeat;
+
+      displayActiveTask(taskObj);
       pomodoro = setInterval(updateCounter,100);
       time = pomodoroTime * 60;
       element.target.classList.add('hide');
@@ -132,3 +177,27 @@ function clearActiveTask(){
   const activeTask = document.querySelector('.active-task');
   activeTask.classList.add('hide');
 }
+
+
+
+
+
+
+
+//// CIRCULLAR PROGGRESS /////
+const circle = document.querySelector(".progress-ring__circle");
+  const radius = circle.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  
+  circle.style.strokeDasharray = circumference;
+  circle.style.strokeDashoffset = circumference;
+  
+  
+  function setProgress(percent) {
+    const offset = circumference - (percent / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+  }
+  
+  function clearDangerAnimation() {
+    document.querySelector('.progress-ring__circle').classList.remove('danger-time');    document.querySelector('.progress-ring').classList.remove('danger-time');
+  }
